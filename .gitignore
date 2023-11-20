@@ -1,0 +1,67 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Generated files
+*.log
+*.json
+*.lock
+*.swp
+*.tgz
+
+# Ignore all .env files
+**/.env
+
+# Build output
+/dist/
+
+# IDE settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Node.js
+.npm
+.DS_Store
+
+# Logs
+*.log
+logs/
+log.txt
+
+# Tests
+/coverage/
+/.nyc_output/
+
+# Yarn
+yarn-error.log
+yarn-debug.log*
+.pnp/
+.pnp.js
+yarn.lock
+
+# Editor directories
+.sass-cache/
+.idea/
+
+# Compilation artifacts
+*.compiled.js
+
+# Types
+*.tsbuildinfo
+
+# Nest.js
+dist/
+/packages/*/dist/
+
+# Angular
+/node_modules/
+/dist/
+/*.js
+
+# Custom
+/custom/
