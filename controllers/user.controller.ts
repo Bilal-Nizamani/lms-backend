@@ -19,6 +19,8 @@ export const registrationUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { name, email, password } = req.body;
+      console.log(req.body);
+
       const isEmailExist = await userModel.findOne({ email });
       if (isEmailExist) {
         return next(new ErrorHandler("Email already Exist", 400));
@@ -47,7 +49,7 @@ export const registrationUser = CatchAsyncError(
           message: `Please check your email: ${user.email} to activate your account`,
           activationToken: activationToken.token,
         });
-      } catch (err) {
+      } catch (err: any) {
         return next(new ErrorHandler(err.message, 400));
       }
     } catch (error: any) {
