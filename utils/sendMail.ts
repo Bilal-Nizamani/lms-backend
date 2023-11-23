@@ -12,14 +12,17 @@ interface EmailOptions {
 
 const sendMail = async (options: EmailOptions): Promise<void> => {
   try {
+    const { SMPT_HOST, SMPT_PORT, SMPT_SERVICE, SMPT_MAIL, SMPT_PASSWORD } =
+      process.env;
+
     const transporter: Transporter = nodemailer.createTransport({
-      host: process.env.SMPT_HOST,
-      port: process.env.SMPT_PORT || 465,
-      service: process.env.SMPT_SERVICE,
+      host: SMPT_HOST,
+      port: SMPT_PORT || 465,
+      service: SMPT_SERVICE,
       secure: true,
       auth: {
-        user: process.env.SMPT_MAIL,
-        pass: process.env.SMPT_PASSWORD,
+        user: SMPT_MAIL,
+        pass: SMPT_PASSWORD,
       },
     } as TransportOptions);
 
@@ -28,11 +31,12 @@ const sendMail = async (options: EmailOptions): Promise<void> => {
     const templatePath = path.join(__dirname, "../mails", template);
     const html: string = await ejs.renderFile(templatePath, data);
     await transporter.sendMail({
-      from: process.env.SMPT_MAIL,
+      from: SMPT_MAIL,
       to: email,
       subject: subject,
       html: html,
     });
+    console.log("email sent");
   } catch (err: any) {
     console.log(err);
   }

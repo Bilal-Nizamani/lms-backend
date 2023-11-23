@@ -6,6 +6,8 @@ import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
 require("dotenv").config();
 app.use(express.json({ limit: "50mb" }));
+// app.use(express.urlencoded({ extended: true }));
+
 //cookie parser
 app.use(cookieParser());
 
