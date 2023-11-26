@@ -8,6 +8,7 @@ import {
   updateAccessToken,
   getUserInfo,
   socialAuth,
+  updateUserInfo,
 } from "../controllers/user.controller";
 
 const userRouter = Router();
@@ -19,4 +20,6 @@ userRouter.get("/logout", isAuthenticated, authrizeRoles("admin"), logoutUser);
 userRouter.get("/refresh", updateAccessToken);
 userRouter.get("/me", isAuthenticated, getUserInfo);
 userRouter.post("/social-auth", socialAuth);
+userRouter.post("/update-user-info", isAuthenticated, updateUserInfo);
+
 export default userRouter;
