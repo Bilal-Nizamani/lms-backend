@@ -9,6 +9,8 @@ import {
   getUserInfo,
   socialAuth,
   updateUserInfo,
+  updatePassword,
+  updateProfilePicture,
 } from "../controllers/user.controller";
 
 const userRouter = Router();
@@ -20,6 +22,12 @@ userRouter.get("/logout", isAuthenticated, authrizeRoles("admin"), logoutUser);
 userRouter.get("/refresh", updateAccessToken);
 userRouter.get("/me", isAuthenticated, getUserInfo);
 userRouter.post("/social-auth", socialAuth);
-userRouter.post("/update-user-info", isAuthenticated, updateUserInfo);
+userRouter.put("/update-user-info", isAuthenticated, updateUserInfo);
+userRouter.put("/update-password", isAuthenticated, updatePassword);
+userRouter.put(
+  "/update-profile-picture",
+  isAuthenticated,
+  updateProfilePicture
+);
 
 export default userRouter;
