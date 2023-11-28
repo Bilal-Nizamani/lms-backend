@@ -60,3 +60,23 @@ export const editCourse = CatchAsyncError(
     }
   }
 );
+
+// get single course --- who have not purchased teh course
+
+export const getSingleCourse = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const course = await CourseModel.findById(req.params.id).select(
+        "-courseData.videoUrl -courseData.suggestion -courseData.links -courseData.questions"
+      );
+      res.status(200).json({
+        success: true,
+        course,
+      });
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  }
+);
+
+//  get all courses --- without purchasing
