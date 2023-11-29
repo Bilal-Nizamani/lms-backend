@@ -113,3 +113,29 @@ export const getAllCourses = CatchAsyncError(
     }
   }
 );
+
+//  get all courses --- with purchasing
+// get course with content only for authentice users who bought course
+export const getCourseByUser = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userCourseList = req.user?.courses;
+      const courseId = req.params.id;
+      const courseExists = userCourseList?.find(
+        (course: any) => course.id.toString() === courseId
+      );
+      if (!courseExists) {
+        return next(new ErrorHandler(`Course not found`, 400));
+      }
+      const course = await CourseModel.findById(req.params.id);
+      const content = course?.courseData;
+
+      res.status(200).json({
+        success: true,
+        content,
+      });
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  }
+);
