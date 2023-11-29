@@ -22,8 +22,10 @@ courseRouter.put(
   authrizeRoles("admin"),
   editCourse
 );
+
 courseRouter.get("/get-course/:id", getSingleCourse);
 courseRouter.get("/get-courses", getAllCourses);
 courseRouter.get("/get-course-content/:id", isAuthenticated, getCourseByUser);
+courseRouter.put("/add-question", isAuthenticated, getCourseByUser);
 
 export default courseRouter;
