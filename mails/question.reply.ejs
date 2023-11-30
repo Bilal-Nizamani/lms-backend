@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Welcome to My LMS Project</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f0f0f0;
+        color: #444;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      div {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      h1 {
+        color: #007bff;
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      p {
+        line-height: 1.6;
+        margin-bottom: 15px;
+        text-align: justify;
+      }
+
+      h2 {
+        color: #28a745;
+        text-align: center;
+        font-size: 42px;
+        margin-top: 20px;
+      }
+
+      p.instructions {
+        color: #dc3545;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      p.contact {
+        text-align: center;
+        margin-top: 20px;
+        font-style: italic;
+        color: #6c757d;
+      }
+
+      .background {
+        background-color: #007bff;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      .svg-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      svg {
+        fill: #28a745;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+      <h1>Hello <%user.name%></h1>
+    </div>
+    <p>a new reply has been added to your question in the video "<%=title%>"</p>
+    <p>please login to website to get answers</p>
+    <p>Thank you for being part of our community</p>
+  </body>
+</html>

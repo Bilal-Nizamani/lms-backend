@@ -6,6 +6,9 @@ import { createCourse } from "../services/course.service";
 import CourseModel from "../models/course.model";
 import { redis } from "../utils/redis";
 import mongoose from "mongoose";
+import path from "path";
+import ejs from "ejs";
+import sendMail from "../utils/sendMail";
 
 // upload course
 
@@ -223,8 +226,28 @@ export const addAnswer = CatchAsyncError(
       question?.questionReplies?.push(newAnswer);
 
       await course?.save();
-      if (req.user?._id === question.user._id)
-        res.status(200).json({ success: true, course });
+      if (req.user?._id === question.user._id) {
+        // create a notification
+      } else {
+        const data = {
+          name: question.user.name,
+          title: courseContent.title,
+        };
+        const html = await ejs.renderFile(
+          path.join(__dirname, "../mails/question-reply.ejs"),
+          data
+        );
+        try {
+          await sendMail({
+            email: question.user.email,
+            subject: "question Reply",
+            template: "question-reply.ejs",
+            data,
+          });
+        } catch (err: any) {}
+      }
+
+      res.status(200).json({ success: true, course });
     } catch (err: any) {}
   }
 );
