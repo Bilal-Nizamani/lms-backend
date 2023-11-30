@@ -184,3 +184,47 @@ export const addQuestionData = CatchAsyncError(
     }
   }
 );
+// add answer to questions
+
+interface IAddAnswerData {
+  answer: string;
+  courseId: string;
+  contentId: string;
+  questionId: string;
+}
+export const addAnswer = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { answer, courseId, contentId, questionId }: IAddAnswerData =
+        req.body;
+
+      const course = await CourseModel.findById(courseId);
+      if (!mongoose.Types.ObjectId.isValid(contentId)) {
+        return next(new ErrorHandler("Invalid content id", 400));
+      }
+
+      const courseContent = course?.courseData?.find((item: any) =>
+        item._id.equals(courseId)
+      );
+
+      if (!courseContent) {
+        return next(new ErrorHandler("Invalid course content", 400));
+      }
+      const question = courseContent?.questions?.find((Item: any) =>
+        Item._id.equals(questionId)
+      );
+      if (!question) {
+        return next(new ErrorHandler("invalid question id", 400));
+      }
+      const newAnswer: any = {
+        user: req.user,
+        answer,
+      };
+      question?.questionReplies?.push(newAnswer);
+
+      await course?.save();
+      if (req.user?._id === question.user._id)
+        res.status(200).json({ success: true, course });
+    } catch (err: any) {}
+  }
+);
