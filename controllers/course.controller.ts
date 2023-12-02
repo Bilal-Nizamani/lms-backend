@@ -269,11 +269,32 @@ export const addReview = CatchAsyncError(
         console.log(typeof courseId, typeof course._id);
         return course._id.toString() === courseId.toString();
       });
+      if (!courseExists) {
+        return next(
+          new ErrorHandler("your not elgible to access this course ", 400)
+        );
+      }
       const course = await CourseModel.findById(courseId);
-
-      const review = {
+      const { review, rating } = req.body as IAddReviewData;
+      const reviewData: any = {
         user: req.user,
+        comment: review,
+        rating,
       };
+      course?.reviews.push(reviewData);
+      let avg = 0;
+      course?.reviews.forEach((rev: any) => {
+        avg += rev.rating;
+      });
+      if (course) {
+        course.ratings = avg / course.reviews.length;
+      }
+      await course?.save();
+      const notification = {
+        title: "New Review Recieved",
+        message: `${req.user?.name} has given a review in ${course?.name}`,
+      };
+      res.status(200).json({ success: true, course });
     } catch (err: any) {
       return next(new ErrorHandler(err.message, 400));
     }
