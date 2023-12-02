@@ -264,10 +264,13 @@ export const addReview = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userCourseList = req.user?.courses;
+      console.log(req.user);
       const courseId = req.params.id;
-      const courseExists = userCourseList?.some((course: any) => {
-        console.log(typeof courseId, typeof course._id);
-        return course._id.toString() === courseId.toString();
+      const courseExists = userCourseList?.find((course: any) => {
+        // console.log(course._id === courseId);
+        // console.log(course._id == courseId);
+        // console.log(course._id, courseId);
+        return course.courseId === courseId.toString();
       });
       if (!courseExists) {
         return next(
