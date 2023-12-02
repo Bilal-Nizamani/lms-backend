@@ -9,7 +9,6 @@ import mongoose from "mongoose";
 import path from "path";
 import ejs from "ejs";
 import sendMail from "../utils/sendMail";
-
 // upload course
 
 export const uploadCourse = CatchAsyncError(
@@ -124,9 +123,9 @@ export const getCourseByUser = CatchAsyncError(
     try {
       const userCourseList = req.user?.courses;
       const courseId = req.params.id as string;
-
+      console.log(userCourseList);
       const courseExists = userCourseList?.find(
-        (course: any) => course.id.toString() === courseId
+        (course: any) => course.courseId.toString() === courseId
       );
       if (!courseExists) {
         return next(new ErrorHandler(`Course not found`, 400));
@@ -157,14 +156,14 @@ export const addQuestionData = CatchAsyncError(
     try {
       const { question, courseId, contentId }: IAddQuestionData = req.body;
 
-      const course = await CourseModel.findById(contentId);
+      const course = await CourseModel.findById(courseId);
 
       if (!mongoose.Types.ObjectId.isValid(contentId)) {
         return next(new ErrorHandler("Invalid content id", 400));
       }
-
+      console.log(course);
       const courseContent = course?.courseData?.find((item: any) =>
-        item._id.equals(courseId)
+        item._id.equals(contentId)
       );
 
       if (!courseContent) {
@@ -207,7 +206,7 @@ export const addAnswer = CatchAsyncError(
       }
 
       const courseContent = course?.courseData?.find((item: any) =>
-        item._id.equals(courseId)
+        item._id.equals(contentId)
       );
 
       if (!courseContent) {
@@ -248,6 +247,35 @@ export const addAnswer = CatchAsyncError(
       }
 
       res.status(200).json({ success: true, course });
-    } catch (err: any) {}
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  }
+);
+// add review in course
+interface IAddReviewData {
+  review: string;
+  courseId: string;
+  rating: number;
+  userId: string;
+}
+
+export const addReview = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userCourseList = req.user?.courses;
+      const courseId = req.params.id;
+      const courseExists = userCourseList?.some((course: any) => {
+        console.log(typeof courseId, typeof course._id);
+        return course._id.toString() === courseId.toString();
+      });
+      const course = await CourseModel.findById(courseId);
+
+      const review = {
+        user: req.user,
+      };
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
   }
 );

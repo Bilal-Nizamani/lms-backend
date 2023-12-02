@@ -6,6 +6,7 @@ import {
   getSingleCourse,
   uploadCourse,
   addAnswer,
+  addQuestionData,
 } from "../controllers/course.controller";
 import { authrizeRoles, isAuthenticated } from "../middleware/auth";
 
@@ -27,7 +28,7 @@ courseRouter.put(
 courseRouter.get("/get-course/:id", getSingleCourse);
 courseRouter.get("/get-courses", getAllCourses);
 courseRouter.get("/get-course-content/:id", isAuthenticated, getCourseByUser);
-courseRouter.put("/add-question", isAuthenticated, getCourseByUser);
+courseRouter.put("/add-question", isAuthenticated, addQuestionData);
 courseRouter.put("/add-answer", isAuthenticated, addAnswer);
 
 export default courseRouter;
