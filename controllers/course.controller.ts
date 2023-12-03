@@ -303,3 +303,37 @@ export const addReview = CatchAsyncError(
     }
   }
 );
+
+// add reply in review and only admin can
+interface IAddReviewReplyData {
+  comment: string;
+  courseId: string;
+  reviewId: string;
+}
+
+export const addReplyToReview = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { comment, courseId, reviewId } = req.body as IAddReviewReplyData;
+      const course = await CourseModel.findById(courseId);
+      if (!course)
+        return next(new ErrorHandler("could not find the course", 400));
+      const review = course?.reviews.find(
+        (rev: any) => rev._id.toString() === reviewId
+      );
+      if (!review) {
+        return next(new ErrorHandler("could not find the review", 400));
+      }
+      const replyData: any = {
+        user: req.user,
+        comment,
+      };
+      if (!review.commentReplies) review.commentReplies = [];
+      review.commentReplies.push(replyData);
+      await course?.save();
+      res.status(200).json({ success: true, course });
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  }
+);

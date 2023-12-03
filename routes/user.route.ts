@@ -12,6 +12,7 @@ import {
   updatePassword,
   updateProfilePicture,
 } from "../controllers/user.controller";
+import { addReplyToReview } from "../controllers/course.controller";
 
 const userRouter = Router();
 
@@ -29,5 +30,10 @@ userRouter.put(
   isAuthenticated,
   updateProfilePicture
 );
-
+userRouter.put(
+  "/add-reply",
+  isAuthenticated,
+  authrizeRoles("admin"),
+  addReplyToReview
+);
 export default userRouter;
