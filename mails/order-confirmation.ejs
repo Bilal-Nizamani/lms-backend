@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation</title>
+    <!-- Add your styling or include external stylesheets if needed -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      .order-table th,
+      .order-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      .order-details {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Order Confirmation</h2>
+
+    <div class="order-details">
+      <table class="order-table">
+        <tr>
+          <th>Order ID</th>
+          <td><%= order._id %></td>
+        </tr>
+        <tr>
+          <th>Course Name</th>
+          <td><%= order.name %></td>
+        </tr>
+        <tr>
+          <th>Price</th>
+          <td><%= order.price %></td>
+        </tr>
+        <tr>
+          <th>Date</th>
+          <td><%= order.Date %></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Add additional content or styling as needed -->
+
+    <p>
+      Thank you for your order! If you have any questions, feel free to contact
+      us.
+    </p>
+  </body>
+</html>
