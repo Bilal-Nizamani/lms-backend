@@ -67,6 +67,8 @@ export const createOrder = CatchAsyncError(
         message: `You have new order ${course?.name}`,
       });
       if (course.purchased) course.purchased += 1;
+      course.purchased ? (course.purchased += 1) : course.purchased;
+
       await course.save();
 
       newOrder(data, res, next);
