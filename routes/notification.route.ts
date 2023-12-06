@@ -12,8 +12,8 @@ notificationRoute.get(
   authrizeRoles("admin"),
   getNotifications
 );
-notificationRoute.get(
-  "/update-notification:id",
+notificationRoute.put(
+  "/update-notification/:id",
   isAuthenticated,
   authrizeRoles("admin"),
   updateNotification

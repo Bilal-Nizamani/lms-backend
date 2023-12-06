@@ -12,6 +12,7 @@ import {
   updatePassword,
   updateProfilePicture,
   getAllUsers,
+  updateUserRole,
 } from "../controllers/user.controller";
 
 const userRouter = Router();
@@ -36,5 +37,12 @@ userRouter.get(
   isAuthenticated,
   authrizeRoles("admin"),
   getAllUsers
+);
+
+userRouter.put(
+  "/update-user",
+  isAuthenticated,
+  authrizeRoles("admin"),
+  updateUserRole
 );
 export default userRouter;
