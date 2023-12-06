@@ -13,7 +13,6 @@ import {
   updateProfilePicture,
   getAllUsers,
 } from "../controllers/user.controller";
-import { addReplyToReview } from "../controllers/course.controller";
 
 const userRouter = Router();
 
