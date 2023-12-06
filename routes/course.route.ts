@@ -8,6 +8,8 @@ import {
   addAnswer,
   addQuestionData,
   addReview,
+  addReplyToReview,
+  getTotalCourses,
 } from "../controllers/course.controller";
 import { authrizeRoles, isAuthenticated } from "../middleware/auth";
 
@@ -32,5 +34,17 @@ courseRouter.get("/get-course-content/:id", isAuthenticated, getCourseByUser);
 courseRouter.put("/add-question", isAuthenticated, addQuestionData);
 courseRouter.put("/add-answer", isAuthenticated, addAnswer);
 courseRouter.put("/add-review/:id", isAuthenticated, addReview);
+courseRouter.put(
+  "/add-reply/:id",
+  isAuthenticated,
+  authrizeRoles("admin"),
+  addReplyToReview
+);
+courseRouter.put(
+  "/get-courses/:id",
+  isAuthenticated,
+  authrizeRoles("admin"),
+  getTotalCourses
+);
 
 export default courseRouter;

@@ -9,6 +9,7 @@ import sendMail from "../utils/sendMail";
 import NotificationModel from "../models/notification.Model";
 import OrderModel, { IOrder } from "../models/order.Model";
 import { newOrder } from "../services/order.service";
+import { request } from "http";
 
 export const createOrder = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -72,6 +73,19 @@ export const createOrder = CatchAsyncError(
       await course.save();
 
       newOrder(data, res, next);
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 500));
+    }
+  }
+);
+
+//get all orders --- only for admin
+
+export const getAllOrders = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const orders = await OrderModel.find();
+      res.status(200).json({ success: true, orders });
     } catch (err: any) {
       return next(new ErrorHandler(err.message, 500));
     }

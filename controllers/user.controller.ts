@@ -15,6 +15,7 @@ import {
 import { redis } from "../utils/redis";
 import { getUserById } from "../services/user.service";
 import cloudinary from "cloudinary";
+import { getAllCoursesService } from "../services/course.service";
 require("dotenv").config();
 interface IRegistrationBody {
   name: string;
@@ -371,6 +372,17 @@ export const updateProfilePicture = CatchAsyncError(
         success: true,
         user,
       });
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  }
+);
+// get all users -- only
+
+export const getAllUsers = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllCoursesService(res);
     } catch (err: any) {
       return next(new ErrorHandler(err.message, 400));
     }

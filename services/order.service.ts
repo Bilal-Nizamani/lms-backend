@@ -1,7 +1,6 @@
 import { NextFunction, Response } from "express";
 import { CatchAsyncError } from "../middleware/catchAsyncError";
 import OrderModel from "../models/order.Model";
-
 // create new order
 
 export const newOrder = CatchAsyncError(
@@ -11,3 +10,12 @@ export const newOrder = CatchAsyncError(
     res.status(201).json({ success: true, order });
   }
 );
+
+// Get All orders
+export const getAllOrdersService = async (res: Response) => {
+  const users = await OrderModel.find().sort({ createadAt: -1 });
+  res.status(201).json({
+    success: true,
+    users,
+  });
+};

@@ -11,6 +11,7 @@ import {
   updateUserInfo,
   updatePassword,
   updateProfilePicture,
+  getAllUsers,
 } from "../controllers/user.controller";
 import { addReplyToReview } from "../controllers/course.controller";
 
@@ -30,10 +31,11 @@ userRouter.put(
   isAuthenticated,
   updateProfilePicture
 );
-userRouter.put(
-  "/add-reply",
+
+userRouter.get(
+  "/get-users",
   isAuthenticated,
   authrizeRoles("admin"),
-  addReplyToReview
+  getAllUsers
 );
 export default userRouter;

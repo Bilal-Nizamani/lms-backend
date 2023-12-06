@@ -2,13 +2,14 @@ import { Request, Response, NextFunction } from "express";
 import ErrorHandler from "../utils/ErrorHandler";
 import { CatchAsyncError } from "../middleware/catchAsyncError";
 import cloudinary from "cloudinary";
-import { createCourse } from "../services/course.service";
+import { createCourse, getAllCoursesService } from "../services/course.service";
 import CourseModel from "../models/course.model";
 import { redis } from "../utils/redis";
 import mongoose from "mongoose";
 import path from "path";
 import ejs from "ejs";
 import sendMail from "../utils/sendMail";
+import NotificationModel from "../models/notification.Model";
 // upload course
 
 export const uploadCourse = CatchAsyncError(
@@ -175,6 +176,11 @@ export const addQuestionData = CatchAsyncError(
         questionReplies: [],
       };
       courseContent.questions.push(newQuestion);
+      await NotificationModel.create({
+        user: req.user?._id,
+        title: "New Question",
+        message: `You have new Question in ${courseContent.title}`,
+      });
       await course?.save();
 
       res.status(200).json({
@@ -227,6 +233,11 @@ export const addAnswer = CatchAsyncError(
       await course?.save();
       if (req.user?._id === question.user._id) {
         // create a notification
+        await NotificationModel.create({
+          user: req.user?._id,
+          title: "New Question Reply Recieved",
+          message: `You have new Question Reply in ${courseContent.title}`,
+        });
       } else {
         const data = {
           name: question.user.name,
@@ -332,6 +343,17 @@ export const addReplyToReview = CatchAsyncError(
       review.commentReplies.push(replyData);
       await course?.save();
       res.status(200).json({ success: true, course });
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  }
+);
+
+// get all courses -- only for admin
+export const getTotalCourses = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllCoursesService(res);
     } catch (err: any) {
       return next(new ErrorHandler(err.message, 400));
     }
