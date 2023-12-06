@@ -6,7 +6,7 @@ import { createOrder, getAllOrders } from "../controllers/order.controller";
 const orderRouter = Router();
 
 orderRouter.post("/purchase-course", isAuthenticated, createOrder);
-orderRouter.post(
+orderRouter.get(
   "/get-orders",
   isAuthenticated,
   authrizeRoles("admin"),

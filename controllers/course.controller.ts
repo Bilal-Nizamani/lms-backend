@@ -278,9 +278,6 @@ export const addReview = CatchAsyncError(
       console.log(req.user);
       const courseId = req.params.id;
       const courseExists = userCourseList?.find((course: any) => {
-        // console.log(course._id === courseId);
-        // console.log(course._id == courseId);
-        // console.log(course._id, courseId);
         return course.courseId === courseId.toString();
       });
       if (!courseExists) {

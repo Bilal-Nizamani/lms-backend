@@ -40,8 +40,8 @@ courseRouter.put(
   authrizeRoles("admin"),
   addReplyToReview
 );
-courseRouter.put(
-  "/get-courses/:id",
+courseRouter.get(
+  "/get-all-courses",
   isAuthenticated,
   authrizeRoles("admin"),
   getTotalCourses
