@@ -12,6 +12,7 @@ import {
   updatePassword,
   updateProfilePicture,
   getAllUsers,
+  deleteUser,
   updateUserRole,
 } from "../controllers/user.controller";
 
@@ -44,5 +45,12 @@ userRouter.put(
   isAuthenticated,
   authrizeRoles("admin"),
   updateUserRole
+);
+
+userRouter.delete(
+  "/delete-user/:id",
+  isAuthenticated,
+  authrizeRoles("admin"),
+  deleteUser
 );
 export default userRouter;
