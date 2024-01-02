@@ -9,9 +9,15 @@ require("dotenv").config();
 export const isAuthenticated = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const access_token = req.cookies.access_token;
-
+    console.log(req.cookies);
+    console.log("isAuthenicated middleware");
     if (!access_token) {
-      return next(new ErrorHandler("please login to get authenticated", 400));
+      return next(
+        new ErrorHandler(
+          "please thereIsNotAccesToken login to get authenticated",
+          400
+        )
+      );
     }
 
     const decoded = jwt.verify(

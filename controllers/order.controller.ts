@@ -9,7 +9,6 @@ import sendMail from "../utils/sendMail";
 import NotificationModel from "../models/notification.Model";
 import OrderModel, { IOrder } from "../models/order.Model";
 import { newOrder } from "../services/order.service";
-import { request } from "http";
 
 export const createOrder = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
